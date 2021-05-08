@@ -5,22 +5,20 @@ import './App.css';
 
 
 function BookStore(props) {
-  const MAX = 5
-  
+  props.imgSrcs.map((img) => console.log(img.img))
   return (
     <div className="BookStore">
-      <img id="BookImg" src={props.imgSrc}></img>
-      <img id="BookImg" src={props.imgSrc}></img>
-      <img id="BookImg" src={props.imgSrc}></img>
-      <img id="BookImg" src={props.imgSrc}></img>
-      <img id="BookImg" src={props.imgSrc}></img>
+      {
+        props.imgSrcs.map((src) => <img id="BookImg" src={src.img}/>)
+      }
     </div>
   )
 }
 
 function Book(props) {
   const onBookSeleted = () => {
-    props.select(props.bookInfo.image)
+    props.select({img: props.bookInfo.image})
+    console.log(props.bookInfo.image)
   }
 
   // title 은 제목에서 검색어와 일치하는 부분은 태그로 감싸져 있다.
@@ -40,6 +38,8 @@ function Book(props) {
 }
 
 function Search() {
+  const MAX = 5
+
   const [query, setQuery] = useState("")
   const [books, setBooks] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -48,7 +48,7 @@ function Search() {
   const bookId = useRef(0)
 
   // Seleted Book Image Src
-  const [bookImg, setBookImg] = useState("")
+  const [bookImgs, setBookImgs] = useState([])
 
   const searchQuery = async () => {
     const URL = '/v1/search/book.xml'
@@ -117,9 +117,16 @@ function Search() {
     }
   }
 
+  const setBookImgsCallBack = (img) => {
+    // MAX 까지 찼으면 더 이상 추가 x
+    if(bookImgs.length != MAX) {
+      setBookImgs((imgs) => [...imgs, img]);
+    }
+  }
+
   return (
     <div>
-      <BookStore imgSrc={bookImg}/>
+      <BookStore imgSrcs={bookImgs}/>
       <div className="inputQuery">
         <input className="query"
           type="text" placeholder="검색할 책의 이름을 입력하세요."
@@ -135,7 +142,7 @@ function Search() {
             isLoading ?
               books.map(book => 
               <Book key={bookId.current++} 
-                bookInfo={book} select={setBookImg}>
+                bookInfo={book} select={setBookImgsCallBack}>
               </Book>)
               : message
           }
