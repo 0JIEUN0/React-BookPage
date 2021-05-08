@@ -88,10 +88,11 @@ function Search() {
 
   return (
     <div className="inputQuery">
-      <textarea className="query"
+      <input className="query"
         type="text" placeholder="검색할 책의 이름을 입력하세요."
-        value={query} onChange={(e)=> {setQuery(e.target.value)}} >
-      </textarea>
+        value={query} onChange={(e)=> {setQuery(e.target.value)}} 
+        onKeyPress={(e)=>{if(e.key === "Enter") searchQuery()}}>
+      </input>
       <button className="queryBtn" onClick={searchQuery}>Search</button>
       
       <h5>검색 결과</h5>
