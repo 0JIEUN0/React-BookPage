@@ -3,13 +3,24 @@ import axios from 'axios';
 import {parseString} from 'xml2js'
 import './App.css';
 
+function BookStore(props) {
+  return (
+    <div className="BookStore">
+      <img src={props.imgSrc}></img>
+    </div>
+  )
+}
 function Book(props) {
+  const onBookSeleted = () => {
+    props.select(props.bookInfo.image)
+  }
+
   // title 은 제목에서 검색어와 일치하는 부분은 태그로 감싸져 있다.
   // 따라서, 각종 tag 제거
   const title = props.bookInfo.title.toString().replace(/(<([^>]+)>)/ig, "")
   return (
     <div className="Book">
-      <img src={props.bookInfo.image}/>
+      <img src={props.bookInfo.image} onClick={onBookSeleted}/>
       <div className="BookInfo">
         <span className="BookTitle">{title}</span><br></br>
         <span className="BookDetails">
@@ -27,6 +38,9 @@ function Search() {
   const [message, setMessage] = useState("")
 
   const bookId = useRef(0)
+
+  // Seleted Book Image Src
+  const [bookImg, setBookImg] = useState("")
 
   const searchQuery = async () => {
     const URL = '/v1/search/book.xml'
@@ -96,22 +110,28 @@ function Search() {
   }
 
   return (
-    <div className="inputQuery">
-      <input className="query"
-        type="text" placeholder="검색할 책의 이름을 입력하세요."
-        value={query} onChange={(e)=> {setQuery(e.target.value)}} 
-        onKeyPress={(e)=>{if(e.key === "Enter") searchQuery()}}>
-      </input>
-      <button className="queryBtn" onClick={searchQuery}>Search</button>
-      
-      <h5>검색 결과</h5>
-      <hr></hr>
-      <div className="searchResult">
-        {
-          isLoading ?
-            books.map(book => <Book key={bookId.current++} bookInfo={book}></Book>)
-            : message
-        }
+    <div>
+      <BookStore imgSrc={bookImg}/>
+      <div className="inputQuery">
+        <input className="query"
+          type="text" placeholder="검색할 책의 이름을 입력하세요."
+          value={query} onChange={(e)=> {setQuery(e.target.value)}} 
+          onKeyPress={(e)=>{if(e.key === "Enter") searchQuery()}}>
+        </input>
+        <button className="queryBtn" onClick={searchQuery}>Search</button>
+        
+        <h5>검색 결과</h5>
+        <hr></hr>
+        <div className="searchResult">
+          {
+            isLoading ?
+              books.map(book => 
+              <Book key={bookId.current++} 
+                bookInfo={book} select={setBookImg}>
+              </Book>)
+              : message
+          }
+        </div>
       </div>
     </div>
   )

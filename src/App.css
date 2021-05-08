@@ -59,4 +59,8 @@
   font-size: 15px;
 }
 
-
+.BookStore {
+  width: 100px;
+  height: 150px;
+  background: gray;
+}
