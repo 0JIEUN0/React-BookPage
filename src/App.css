@@ -36,3 +36,27 @@
   padding: 10px;
 }
 
+.Book {
+  display: flex;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.BookInfo {
+  text-align: left;
+  margin: 10px;
+}
+
+.BookTitle {
+  flex: 1;
+  text-align: left;
+  font-size: 20px;
+  color: bisque;
+}
+
+.BookDetails {
+  color: aliceblue;
+  font-size: 15px;
+}
+
+

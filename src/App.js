@@ -4,9 +4,18 @@ import {parseString} from 'xml2js'
 import './App.css';
 
 function Book(props) {
+  // title 은 제목에서 검색어와 일치하는 부분은 태그로 감싸져 있다.
+  // 따라서, 각종 tag 제거
+  const title = props.bookInfo.title.toString().replace(/(<([^>]+)>)/ig, "")
   return (
-    <div>
-      {props.bookInfo.title}: {props.bookInfo.price}
+    <div className="Book">
+      <img src={props.bookInfo.image}/>
+      <div className="BookInfo">
+        <span className="BookTitle">{title}</span><br></br>
+        <span className="BookDetails">
+        {props.bookInfo.author} / {props.bookInfo.price} / {props.bookInfo.link}
+        </span>
+      </div>
     </div>
   )
 }
