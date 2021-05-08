@@ -3,13 +3,21 @@ import axios from 'axios';
 import {parseString} from 'xml2js'
 import './App.css';
 
+
 function BookStore(props) {
+  const MAX = 5
+  
   return (
     <div className="BookStore">
-      <img src={props.imgSrc}></img>
+      <img id="BookImg" src={props.imgSrc}></img>
+      <img id="BookImg" src={props.imgSrc}></img>
+      <img id="BookImg" src={props.imgSrc}></img>
+      <img id="BookImg" src={props.imgSrc}></img>
+      <img id="BookImg" src={props.imgSrc}></img>
     </div>
   )
 }
+
 function Book(props) {
   const onBookSeleted = () => {
     props.select(props.bookInfo.image)

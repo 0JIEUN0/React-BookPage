@@ -60,7 +60,13 @@
 }
 
 .BookStore {
+  align-items: center;
+}
+
+#BookImg {
+  margin: 10px;
   width: 100px;
   height: 150px;
   background: gray;
+  padding: 10px;
 }
